@@ -1,23 +1,39 @@
 # CitaFácil — Gestión de citas y recordatorios
 
-![Versión](https://img.shields.io/badge/versión-0.3.0-blue) ![Plataforma](https://img.shields.io/badge/plataforma-Android-green) ![Kotlin](https://img.shields.io/badge/lenguaje-Kotlin-purple) ![Estado](https://img.shields.io/badge/estado-en%20desarrollo-orange)
+![Versión](https://img.shields.io/badge/versión-1.0.0-blue) ![Plataforma](https://img.shields.io/badge/plataforma-Android-green) ![Kotlin](https://img.shields.io/badge/lenguaje-Kotlin-purple) ![Estado](https://img.shields.io/badge/estado-prototipo%20funcional-brightgreen)
 
 Aplicación nativa para Android que permite a barberías, salones de belleza y clínicas ambulatorias pequeñas digitalizar su agenda. El cliente reserva sin llamar por teléfono y recibe recordatorios automáticos; el administrador gestiona horarios, servicios y personal, y consulta indicadores de ocupación y ausentismo.
 
-> **Curso:** Desarrollo de Aplicaciones Android · **Autor:** Carlos · **Entrega actual:** Módulo 5, progreso de la aplicación (versión 0.3.0, 18 de octubre de 2026)
+> **Curso:** Desarrollo de Aplicaciones Android · **Autor:** Carlos · **Entrega actual:** Proyecto final (versión 1.0.0, 18 de octubre de 2026)
 
 ## Contenido
 
-1. [Problema](#problema)
-2. [Plataforma y tecnologías](#plataforma-y-tecnologías)
-3. [Funcionalidad](#funcionalidad)
-4. [Arquitectura](#arquitectura)
-5. [Diseño de la base de datos](#diseño-de-la-base-de-datos)
-6. [Wireframes](#wireframes)
-7. [Cronograma](#cronograma)
-8. [Registro de cambios](#registro-de-cambios)
-9. [Cómo ejecutar el proyecto](#cómo-ejecutar-el-proyecto)
-10. [Referencias](#referencias)
+1. [Descargar la app](#descargar-la-app)
+2. [Problema](#problema)
+3. [Plataforma y tecnologías](#plataforma-y-tecnologías)
+4. [Funcionalidad](#funcionalidad)
+5. [Arquitectura](#arquitectura)
+6. [Diseño de la base de datos](#diseño-de-la-base-de-datos)
+7. [App en MIT App Inventor](#app-en-mit-app-inventor)
+8. [Wireframes](#wireframes)
+9. [Cronograma](#cronograma)
+10. [Registro de cambios](#registro-de-cambios)
+11. [Cómo ejecutar el proyecto](#cómo-ejecutar-el-proyecto)
+12. [Reflexión](#reflexión)
+13. [Referencias](#referencias)
+
+## Descargar la app
+
+| Archivo | Descripción |
+|---|---|
+| [`app/CitaFacil.apk`](app/CitaFacil.apk) | Aplicación instalable para Android |
+| [`app/CitaFacil.aia`](app/CitaFacil.aia) | Proyecto fuente de MIT App Inventor (archivo .zip) |
+| [`app/CitaFacil_QR.png`](app/CitaFacil_QR.png) | Código QR para descargar el .apk desde el teléfono |
+| [`docs/CitaFacil_Informe_Final.docx`](docs/CitaFacil_Informe_Final.docx) | Informe final del proyecto |
+
+<img src="app/CitaFacil_QR.png" alt="Código QR de descarga de CitaFacil.apk" width="200">
+
+Para instalarla, escanea el código QR con el teléfono, descarga el archivo y permite la instalación de aplicaciones de origen desconocido cuando Android lo pida.
 
 ## Problema
 
@@ -199,6 +215,27 @@ interface CitaDao {
 | Ocupación y ausencias | Cita (estado, inicio, fin) | Agregación por fecha |
 | Botón `[+]` en franja libre | Cita registrada por el administrador | Inserción manual |
 
+## App en MIT App Inventor
+
+El prototipo entregable se construyó en MIT App Inventor. Ocupa una pantalla con tres secciones que se alternan con pestañas: **Reservar**, **Mis citas** e **Indicadores**. La versión comercial con Kotlin y Firebase descrita arriba es la siguiente etapa.
+
+| Tipo | Componentes |
+|---|---|
+| Botones | Pestañas, `BtnReservar`, `BtnCancelar`, `BtnSms`, `BtnComoLlegar` |
+| Imágenes | `ImgEncabezado` (logotipo y lema) |
+| Lienzo | `CnvGrafica`: gráfica de citas por servicio que responde al toque |
+| Selectores | `ListPicker` de servicio y profesional, `DatePicker`, `TimePicker`, `TextBox` |
+| Invisibles | `TinyDB` (base de datos), `Sound` (aviso), `Clock` (formato y temporizador), `LocationSensor`, `Notifier`, `Texting` (SMS), `ActivityStarter` (Google Maps) |
+| Listas | Cada cita es una lista de 6 elementos; todas se guardan en la variable global `citas` |
+
+**Bloques destacados**
+
+- Variables globales: `citas`, `servicios`, `conteos`, `servicioSel`, `profesionalSel`, `latitud`, `longitud`, `avisadas`, `destino`.
+- Procedimientos: `mostrarSeccion(seccion)`, `actualizarLista`, `guardarCitas`, `dibujarGrafica`.
+- Eventos con argumentos: `CnvGrafica.Touched(x, y)`, `LocationSensor1.LocationChanged(latitude, longitude)`, `Notifier1.AfterChoosing(choice)`.
+- `BtnReservar.Click` construye el instante con `Clock1.MakeInstantFromParts` y rechaza la reserva si el profesional ya tiene una cita a esa hora.
+- `Clock1.Timer` revisa cada minuto si alguna cita empieza en menos de dos horas y muestra el recordatorio con sonido una sola vez.
+
 ## Wireframes
 
 <table><tr><td>
@@ -270,20 +307,25 @@ interface CitaDao {
 |---|---|---|
 | 1 y 2 | Borrador del proyecto, repositorio y wiki | ✅ Completado |
 | 3 y 4 | Autenticación, modelo de datos y navegación | ✅ Completado |
-| 5 y 6 | Arquitectura, base de datos, flujo de reserva y persistencia local | 🔄 En progreso |
-| 7 | Panel administrativo y reportes; código en GitHub Classroom | ⏳ Pendiente |
-| 8 | Notificaciones, pruebas y paquete final | ⏳ Pendiente |
+| 5 y 6 | Arquitectura, base de datos, flujo de reserva y persistencia local | ✅ Completado |
+| 7 | Indicadores y publicación del código | ✅ Completado |
+| 8 | Recordatorios, pruebas, .apk, QR e informe final | ✅ Completado |
 
 ## Registro de cambios
 
 El historial completo está en [CHANGELOG.md](CHANGELOG.md). Resumen:
 
-- **[Próximo]**: panel administrativo, recordatorios con WorkManager y FCM, pruebas, código en GitHub Classroom y App Bundle firmado.
-- **[0.3.0] — 2026-10-18 (actual)**: arquitectura por capas, modelo entidad-relación en 3FN, prevención de doble reserva, entidad y DAO de Room, Room como fuente única de verdad.
+- **[Próximo]**: migración a Kotlin y Firebase, recordatorios desde el servidor, panel web y publicación en Google Play.
+- **[1.0.0] — 2026-10-18 (actual)**: app funcional en MIT App Inventor, .apk, .aia, código QR, informe final y presentación.
+- **[0.3.0] — 2026-10-18**: arquitectura por capas, modelo entidad-relación en 3FN, prevención de doble reserva, entidad y DAO de Room, Room como fuente única de verdad.
 - **[0.2.0] — Módulos 3 y 4**: proyecto base en Compose, Firebase Authentication y navegación por rol.
 - **[0.1.0] — 2026-08-31**: borrador inicial, repositorio y wiki.
 
 ## Cómo ejecutar el proyecto
+
+**Prototipo (MIT App Inventor):** instala `app/CitaFacil.apk` en un teléfono Android, o importa `app/CitaFacil.aia` en [ai2.appinventor.mit.edu](https://ai2.appinventor.mit.edu) con *Projects › Import project (.aia)* y pruébalo con MIT AI2 Companion.
+
+**Versión comercial (en desarrollo):**
 
 1. Instala la versión más reciente de Android Studio.
 2. Clona el repositorio:
@@ -292,6 +334,10 @@ El historial completo está en [CHANGELOG.md](CHANGELOG.md). Resumen:
    ```
 3. Crea un proyecto en Firebase, registra la app Android y coloca `google-services.json` en `app/`.
 4. Abre el proyecto, sincroniza Gradle y ejecuta en un emulador o dispositivo con Android 8.0 o superior.
+
+## Reflexión
+
+El proyecto recorrió el ciclo completo de una app móvil: del problema de negocio a un archivo instalable. Cada foro aportó una pieza: la arquitectura por capas de Google, que se conservó con procedimientos en el editor de bloques; el diseño de bases de datos, que se tradujo en la regla contra la doble reserva; el uso responsable del SMS a través de la app de mensajería del usuario; la localización, que inspiró el botón «Cómo llegar»; y el trabajo en segundo plano y la distribución en Google Play, que definieron la hoja de ruta. La principal limitación es que las citas se guardan solo en el teléfono; compartir la agenda en tiempo real con Cloud Firestore es la siguiente meta.
 
 ## Referencias
 
@@ -311,6 +357,10 @@ Google. (2026e). *Transactions and batched writes*. Firebase Documentation. http
 
 Lacan, O. (s.f.). *Keep a Changelog* (versión 1.1.0). https://keepachangelog.com/es-ES/1.1.0/
 
+Massachusetts Institute of Technology. (s.f.). *MIT App Inventor*. https://appinventor.mit.edu
+
 McLean, S. M., Booth, A., Gee, M., Salway, S., Cobb, M., Bhanbhro, S., & Nancarrow, S. A. (2016). Appointment reminder systems are effective but not optimal: Results of a systematic review and evidence synthesis employing realist principles. *Patient Preference and Adherence, 10*, 479–499. https://doi.org/10.2147/PPA.S93046
 
 Preston-Werner, T. (s.f.). *Versionado semántico 2.0.0*. https://semver.org/lang/es/
+
+Wolber, D., Abelson, H., Spertus, E., & Looney, L. (2014). *App Inventor 2: Create your own Android apps* (2.ª ed.). O’Reilly Media.

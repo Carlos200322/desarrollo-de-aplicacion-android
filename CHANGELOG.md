@@ -4,17 +4,28 @@ Todos los cambios relevantes de **CitaFácil** se documentan en este archivo.
 
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto sigue el [versionado semántico](https://semver.org/lang/es/).
 
-## [Próximo] — Módulos 6 a 8
+## [Próximo] — Después del término académico
 
 ### Planeado
-- Completar el flujo de reserva con persistencia local en Room y sincronización con Firestore (módulo 6).
-- Implementar el panel administrativo con indicadores de ocupación, ingresos y ausentismo (módulo 7).
-- Publicar el código fuente y este README en GitHub Classroom antes del módulo 7.
-- Programar los recordatorios a 24 h y 2 h con WorkManager y Firebase Cloud Messaging (módulo 8).
-- Escribir pruebas unitarias del caso de uso de disponibilidad y pruebas de instrumentación de los DAO.
-- Generar el Android App Bundle firmado y entregar el programa final (módulo 8).
+- Migrar a Kotlin con Room y Cloud Firestore para compartir la agenda entre el cliente y el negocio.
+- Enviar recordatorios desde el servidor con notificaciones push y una pasarela de SMS.
+- Panel web del administrador con indicadores de ocupación, ingresos y ausentismo.
+- Piloto con negocios reales y publicación en Google Play.
 
-## [0.3.0] — 2026-10-18 · Módulo 5 (versión actual)
+## [1.0.0] — 2026-10-18 · Proyecto final (versión actual)
+
+### Agregado
+- App funcional en MIT App Inventor con las secciones Reservar, Mis citas e Indicadores.
+- Persistencia con TinyDB, detección de doble reserva y cancelación con diálogo de confirmación.
+- Recordatorio con temporizador y sonido, confirmación por SMS y ruta a Google Maps con la ubicación del usuario.
+- Gráfica de citas por servicio en un lienzo que responde al toque.
+- `app/CitaFacil.apk`, `app/CitaFacil.aia`, código QR permanente e informe final en `docs/`.
+
+### Cambiado
+- El entregable del término es un prototipo en App Inventor; la arquitectura con Kotlin y Firebase pasa a la hoja de ruta.
+- README actualizado a la versión 1.0.0.
+
+## [0.3.0] — 2026-10-18 · Módulo 5
 
 ### Agregado
 - Sección de arquitectura por capas (interfaz, dominio y datos).
